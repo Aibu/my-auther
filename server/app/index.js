@@ -21,6 +21,11 @@ app.use('/api', function (req, res, next) {
   next();
 });
 
+app.use(function (req, res, next) {
+  console.log('session', req.session);
+  next();
+});
+
 app.use('/api', require('../api/api.router'));
 
 var validFrontendRoutes = ['/', '/stories', '/users', '/stories/:id', '/users/:id', '/signup', '/login'];
