@@ -2,13 +2,18 @@
 
 var app = require('express')();
 var path = require('path');
-var session = require('express-session');
 
 app.use(require('./logging.middleware'));
 
 app.use(require('./request-state.middleware'));
 
 app.use(require('./statics.middleware'));
+
+var session = require('express-session');
+
+app.use(session({
+  secret: 'supersecret'
+}));
 
 app.use('/api', require('../api/api.router'));
 
