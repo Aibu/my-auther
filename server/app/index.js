@@ -43,6 +43,11 @@ app.post('/login', function (req, res, next) {
     });
 });
 
+app.get('/logout', function (req, res, next) {
+  req.session.userId = null;
+  res.sendStatus(204);
+});
+
 app.post('/signup', function (req, res, next) {
 
   User.findOrCreate({
