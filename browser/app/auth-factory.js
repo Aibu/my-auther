@@ -18,6 +18,12 @@ app.factory('AuthFactory', function ($http) {
                 .then(function (response) {
                     return response.data;
                 });
+        },
+        getLoggedInUser: function () {
+            return $http.get('/auth/me')
+                .then(function (response) {
+                    return response.data;
+                });
         }
     };
 

@@ -65,6 +65,19 @@ app.post('/signup', function (req, res, next) {
 
 });
 
+app.get('/auth/me', function (req, res, next) {
+
+  if (!req.session.userId) {
+    res.sendStatus(401);
+  } else {
+    User.findById(req.session.userId)
+      .then(function (user) {
+        res.send(user);
+      });
+  }
+
+});
+
 var validFrontendRoutes = ['/', '/stories', '/users', '/stories/:id', '/users/:id', '/signup', '/login'];
 var indexPath = path.join(__dirname, '..', '..', 'public', 'index.html');
 validFrontendRoutes.forEach(function (stateRoute) {
