@@ -43,6 +43,23 @@ app.post('/login', function (req, res, next) {
     });
 });
 
+app.post('/signup', function (req, res, next) {
+
+  User.findOrCreate({
+    where: {
+      email: req.body.email
+    },
+    defaults: {
+      password: req.body.password
+    }
+  })
+    .spread(function (user) {
+      req.session.userId = user.id;
+      res.send(user);
+    });
+
+});
+
 var validFrontendRoutes = ['/', '/stories', '/users', '/stories/:id', '/users/:id', '/signup', '/login'];
 var indexPath = path.join(__dirname, '..', '..', 'public', 'index.html');
 validFrontendRoutes.forEach(function (stateRoute) {
