@@ -2,6 +2,7 @@
 
 var app = require('express')();
 var path = require('path');
+var User = require('../api/users/user.model');
 
 app.use(require('./logging.middleware'));
 
@@ -27,6 +28,20 @@ app.use(function (req, res, next) {
 });
 
 app.use('/api', require('../api/api.router'));
+
+app.post('/login', function (req, res, next) {
+  User.findOne({
+    where: req.body
+  })
+    .then(function (user) {
+      if (!user) {
+        res.sendStatus(401);
+      } else {
+        req.session.userId = user.id;
+        res.sendStatus(204);
+      }
+    });
+});
 
 var validFrontendRoutes = ['/', '/stories', '/users', '/stories/:id', '/users/:id', '/signup', '/login'];
 var indexPath = path.join(__dirname, '..', '..', 'public', 'index.html');
